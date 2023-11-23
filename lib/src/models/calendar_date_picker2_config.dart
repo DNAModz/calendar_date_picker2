@@ -14,10 +14,6 @@ typedef CalendarDayTextStylePredicate = TextStyle? Function(
   DateTime date,
 );
 
-typedef OnMonthIconTap = void Function(
-  DateTime date,
-);
-
 typedef CalendarDayBuilder = Widget? Function({
   required DateTime date,
   TextStyle? textStyle,
@@ -53,9 +49,7 @@ class CalendarDatePicker2Config {
     this.firstDayOfWeekTextStyle,
     this.controlsHeight,
     this.lastMonthIcon,
-    this.onLastMonthTap,
     this.nextMonthIcon,
-    this.onNextMonthTap,
     this.controlsTextStyle,
     this.dayTextStyle,
     this.selectedDayTextStyle,
@@ -122,14 +116,8 @@ class CalendarDatePicker2Config {
   /// Custom icon for last month button control
   final Widget? lastMonthIcon;
 
-  /// Custom tap function for last month button control
-  final OnMonthIconTap? onLastMonthTap;
-
   /// Custom icon for next month button control
   final Widget? nextMonthIcon;
-
-  /// Custom tap function for next month button control
-  final OnMonthIconTap? onNextMonthTap;
 
   /// Custom text style for calendar mode toggle control
   final TextStyle? controlsTextStyle;
@@ -209,9 +197,7 @@ class CalendarDatePicker2Config {
     TextStyle? firstDayOfWeekTextStyle,
     double? controlsHeight,
     Widget? lastMonthIcon,
-    OnMonthIconTap? onLastMonthTap,
     Widget? nextMonthIcon,
-    OnMonthIconTap? onNextMonthTap,
     TextStyle? controlsTextStyle,
     TextStyle? dayTextStyle,
     TextStyle? selectedDayTextStyle,
@@ -246,9 +232,7 @@ class CalendarDatePicker2Config {
       firstDayOfWeekTextStyle: firstDayOfWeekTextStyle ?? this.firstDayOfWeekTextStyle,
       controlsHeight: controlsHeight ?? this.controlsHeight,
       lastMonthIcon: lastMonthIcon ?? this.lastMonthIcon,
-      onLastMonthTap: onLastMonthTap ?? this.onLastMonthTap,
       nextMonthIcon: nextMonthIcon ?? this.nextMonthIcon,
-      onNextMonthTap: onNextMonthTap ?? this.onNextMonthTap,
       controlsTextStyle: controlsTextStyle ?? this.controlsTextStyle,
       dayTextStyle: dayTextStyle ?? this.dayTextStyle,
       selectedDayTextStyle: selectedDayTextStyle ?? this.selectedDayTextStyle,
@@ -287,9 +271,7 @@ class CalendarDatePicker2WithActionButtonsConfig extends CalendarDatePicker2Conf
     TextStyle? firstDayOfWeekTextStyle,
     double? controlsHeight,
     Widget? lastMonthIcon,
-    OnMonthIconTap? onLastMonthTap,
     Widget? nextMonthIcon,
-    OnMonthIconTap? onNextMonthTap,
     TextStyle? controlsTextStyle,
     TextStyle? dayTextStyle,
     TextStyle? selectedDayTextStyle,
@@ -332,9 +314,7 @@ class CalendarDatePicker2WithActionButtonsConfig extends CalendarDatePicker2Conf
           firstDayOfWeekTextStyle: firstDayOfWeekTextStyle,
           controlsHeight: controlsHeight,
           lastMonthIcon: lastMonthIcon,
-          onLastMonthTap: onLastMonthTap,
           nextMonthIcon: nextMonthIcon,
-          onNextMonthTap: onNextMonthTap,
           controlsTextStyle: controlsTextStyle,
           dayTextStyle: dayTextStyle,
           selectedDayTextStyle: selectedDayTextStyle,
@@ -398,9 +378,7 @@ class CalendarDatePicker2WithActionButtonsConfig extends CalendarDatePicker2Conf
     TextStyle? firstDayOfWeekTextStyle,
     double? controlsHeight,
     Widget? lastMonthIcon,
-    OnMonthIconTap? onLastMonthTap,
     Widget? nextMonthIcon,
-    OnMonthIconTap? onNextMonthTap,
     TextStyle? controlsTextStyle,
     TextStyle? dayTextStyle,
     TextStyle? selectedDayTextStyle,
@@ -444,9 +422,7 @@ class CalendarDatePicker2WithActionButtonsConfig extends CalendarDatePicker2Conf
       firstDayOfWeekTextStyle: firstDayOfWeekTextStyle ?? this.firstDayOfWeekTextStyle,
       controlsHeight: controlsHeight ?? this.controlsHeight,
       lastMonthIcon: lastMonthIcon ?? this.lastMonthIcon,
-      onLastMonthTap: onLastMonthTap ?? this.onLastMonthTap,
       nextMonthIcon: nextMonthIcon ?? this.nextMonthIcon,
-      onNextMonthTap: onNextMonthTap ?? this.onNextMonthTap,
       controlsTextStyle: controlsTextStyle ?? this.controlsTextStyle,
       dayTextStyle: dayTextStyle ?? this.dayTextStyle,
       selectedDayTextStyle: selectedDayTextStyle ?? this.selectedDayTextStyle,

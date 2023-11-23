@@ -287,14 +287,6 @@ class _MyHomePageState extends State<MyHomePage> {
       disabledDayTextStyle: const TextStyle(
         color: Colors.grey,
       ),
-      onNextMonthTap: (currentDate) {
-        debugPrint(currentDate.toString());
-        debugPrint('next month');
-      },
-      onLastMonthTap: (currentDate) {
-        debugPrint(currentDate.toString());
-        debugPrint('last month');
-      },
       selectableDayPredicate: (day) =>
           !day.difference(DateTime.now().subtract(const Duration(days: 3))).isNegative,
     );

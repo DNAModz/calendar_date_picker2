@@ -140,18 +140,16 @@ class _CalendarViewState extends State<_CalendarView> {
   }
 
   /// Navigate to the next month.
-  void _handleNextMonth() async {
+  void _handleNextMonth() {
     if (!_isDisplayingLastMonth) {
-      await _pageController.nextPage(duration: _monthScrollDuration, curve: Curves.ease);
-      widget.config.onNextMonthTap?.call(_currentMonth);
+      _pageController.nextPage(duration: _monthScrollDuration, curve: Curves.ease);
     }
   }
 
   /// Navigate to the previous month.
-  void _handlePreviousMonth() async {
+  void _handlePreviousMonth() {
     if (!_isDisplayingFirstMonth) {
-      await _pageController.previousPage(duration: _monthScrollDuration, curve: Curves.ease);
-      widget.config.onLastMonthTap?.call(_currentMonth);
+      _pageController.previousPage(duration: _monthScrollDuration, curve: Curves.ease);
     }
   }
 
