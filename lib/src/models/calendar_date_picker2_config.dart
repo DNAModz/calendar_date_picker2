@@ -10,9 +10,13 @@ enum CalendarDatePicker2Type {
   range,
 }
 
-typedef CalendarDayTextStylePredicate = TextStyle? Function({
-  required DateTime date,
-});
+typedef CalendarDayTextStylePredicate = TextStyle? Function(
+  DateTime date,
+);
+
+typedef OnMonthIconTap = void Function(
+  DateTime date,
+);
 
 typedef CalendarDayBuilder = Widget? Function({
   required DateTime date,
@@ -46,9 +50,12 @@ class CalendarDatePicker2Config {
     this.weekdayLabels,
     this.weekdayLabelTextStyle,
     this.firstDayOfWeek,
+    this.firstDayOfWeekTextStyle,
     this.controlsHeight,
     this.lastMonthIcon,
+    this.onLastMonthTap,
     this.nextMonthIcon,
+    this.onNextMonthTap,
     this.controlsTextStyle,
     this.dayTextStyle,
     this.selectedDayTextStyle,
@@ -70,10 +77,10 @@ class CalendarDatePicker2Config {
     this.modePickerTextHandler,
     this.selectedRangeDayTextStyle,
     this.rangeBidirectional = false,
-  })  : calendarType = calendarType ?? CalendarDatePicker2Type.single,
+  })
+      : calendarType = calendarType ?? CalendarDatePicker2Type.single,
         firstDate = DateUtils.dateOnly(firstDate ?? DateTime(1970)),
-        lastDate =
-            DateUtils.dateOnly(lastDate ?? DateTime(DateTime.now().year + 50)),
+        lastDate = DateUtils.dateOnly(lastDate ?? DateTime(DateTime.now().year + 50)),
         currentDate = currentDate ?? DateUtils.dateOnly(DateTime.now()),
         calendarViewMode = calendarViewMode ?? DatePickerMode.day;
 
@@ -106,14 +113,23 @@ class CalendarDatePicker2Config {
   /// Index of the first day of week, where 0 points to Sunday, and 6 points to Saturday.
   final int? firstDayOfWeek;
 
+  /// Custom text style for first day of week labels
+  final TextStyle? firstDayOfWeekTextStyle;
+
   /// Custom height for calendar control toggle's height
   final double? controlsHeight;
 
   /// Custom icon for last month button control
   final Widget? lastMonthIcon;
 
+  /// Custom tap function for last month button control
+  final OnMonthIconTap? onLastMonthTap;
+
   /// Custom icon for next month button control
   final Widget? nextMonthIcon;
+
+  /// Custom tap function for next month button control
+  final OnMonthIconTap? onNextMonthTap;
 
   /// Custom text style for calendar mode toggle control
   final TextStyle? controlsTextStyle;
@@ -190,9 +206,12 @@ class CalendarDatePicker2Config {
     List<String>? weekdayLabels,
     TextStyle? weekdayLabelTextStyle,
     int? firstDayOfWeek,
+    TextStyle? firstDayOfWeekTextStyle,
     double? controlsHeight,
     Widget? lastMonthIcon,
+    OnMonthIconTap? onLastMonthTap,
     Widget? nextMonthIcon,
+    OnMonthIconTap? onNextMonthTap,
     TextStyle? controlsTextStyle,
     TextStyle? dayTextStyle,
     TextStyle? selectedDayTextStyle,
@@ -222,47 +241,40 @@ class CalendarDatePicker2Config {
       currentDate: currentDate ?? this.currentDate,
       calendarViewMode: calendarViewMode ?? this.calendarViewMode,
       weekdayLabels: weekdayLabels ?? this.weekdayLabels,
-      weekdayLabelTextStyle:
-          weekdayLabelTextStyle ?? this.weekdayLabelTextStyle,
+      weekdayLabelTextStyle: weekdayLabelTextStyle ?? this.weekdayLabelTextStyle,
       firstDayOfWeek: firstDayOfWeek ?? this.firstDayOfWeek,
+      firstDayOfWeekTextStyle: firstDayOfWeekTextStyle ?? this.firstDayOfWeekTextStyle,
       controlsHeight: controlsHeight ?? this.controlsHeight,
       lastMonthIcon: lastMonthIcon ?? this.lastMonthIcon,
+      onLastMonthTap: onLastMonthTap ?? this.onLastMonthTap,
       nextMonthIcon: nextMonthIcon ?? this.nextMonthIcon,
+      onNextMonthTap: onNextMonthTap ?? this.onNextMonthTap,
       controlsTextStyle: controlsTextStyle ?? this.controlsTextStyle,
       dayTextStyle: dayTextStyle ?? this.dayTextStyle,
       selectedDayTextStyle: selectedDayTextStyle ?? this.selectedDayTextStyle,
-      selectedDayHighlightColor:
-          selectedDayHighlightColor ?? this.selectedDayHighlightColor,
-      selectedRangeHighlightColor:
-          selectedRangeHighlightColor ?? this.selectedRangeHighlightColor,
+      selectedDayHighlightColor: selectedDayHighlightColor ?? this.selectedDayHighlightColor,
+      selectedRangeHighlightColor: selectedRangeHighlightColor ?? this.selectedRangeHighlightColor,
       disabledDayTextStyle: disabledDayTextStyle ?? this.disabledDayTextStyle,
       todayTextStyle: todayTextStyle ?? this.todayTextStyle,
       yearTextStyle: yearTextStyle ?? this.yearTextStyle,
-      selectedYearTextStyle:
-          selectedYearTextStyle ?? this.selectedYearTextStyle,
-      selectedRangeDayTextStyle:
-          selectedRangeDayTextStyle ?? this.selectedRangeDayTextStyle,
+      selectedYearTextStyle: selectedYearTextStyle ?? this.selectedYearTextStyle,
+      selectedRangeDayTextStyle: selectedRangeDayTextStyle ?? this.selectedRangeDayTextStyle,
       dayBorderRadius: dayBorderRadius ?? this.dayBorderRadius,
       yearBorderRadius: yearBorderRadius ?? this.yearBorderRadius,
-      selectableDayPredicate:
-          selectableDayPredicate ?? this.selectableDayPredicate,
-      dayTextStylePredicate:
-          dayTextStylePredicate ?? this.dayTextStylePredicate,
+      selectableDayPredicate: selectableDayPredicate ?? this.selectableDayPredicate,
+      dayTextStylePredicate: dayTextStylePredicate ?? this.dayTextStylePredicate,
       dayBuilder: dayBuilder ?? this.dayBuilder,
       yearBuilder: yearBuilder ?? this.yearBuilder,
       disableModePicker: disableModePicker ?? this.disableModePicker,
-      centerAlignModePicker:
-          centerAlignModePicker ?? this.centerAlignModePicker,
+      centerAlignModePicker: centerAlignModePicker ?? this.centerAlignModePicker,
       customModePickerIcon: customModePickerIcon ?? this.customModePickerIcon,
-      modePickerTextHandler:
-          modePickerTextHandler ?? this.modePickerTextHandler,
+      modePickerTextHandler: modePickerTextHandler ?? this.modePickerTextHandler,
       rangeBidirectional: rangeBidirectional ?? this.rangeBidirectional,
     );
   }
 }
 
-class CalendarDatePicker2WithActionButtonsConfig
-    extends CalendarDatePicker2Config {
+class CalendarDatePicker2WithActionButtonsConfig extends CalendarDatePicker2Config {
   CalendarDatePicker2WithActionButtonsConfig({
     CalendarDatePicker2Type? calendarType,
     DateTime? firstDate,
@@ -272,9 +284,12 @@ class CalendarDatePicker2WithActionButtonsConfig
     List<String>? weekdayLabels,
     TextStyle? weekdayLabelTextStyle,
     int? firstDayOfWeek,
+    TextStyle? firstDayOfWeekTextStyle,
     double? controlsHeight,
     Widget? lastMonthIcon,
+    OnMonthIconTap? onLastMonthTap,
     Widget? nextMonthIcon,
+    OnMonthIconTap? onNextMonthTap,
     TextStyle? controlsTextStyle,
     TextStyle? dayTextStyle,
     TextStyle? selectedDayTextStyle,
@@ -306,7 +321,7 @@ class CalendarDatePicker2WithActionButtonsConfig
     this.closeDialogOnOkTapped,
     this.buttonPadding,
   }) : super(
-          calendarType: calendarType,
+    calendarType: calendarType,
           firstDate: firstDate,
           lastDate: lastDate,
           currentDate: currentDate,
@@ -314,9 +329,12 @@ class CalendarDatePicker2WithActionButtonsConfig
           weekdayLabels: weekdayLabels,
           weekdayLabelTextStyle: weekdayLabelTextStyle,
           firstDayOfWeek: firstDayOfWeek,
+          firstDayOfWeekTextStyle: firstDayOfWeekTextStyle,
           controlsHeight: controlsHeight,
           lastMonthIcon: lastMonthIcon,
+          onLastMonthTap: onLastMonthTap,
           nextMonthIcon: nextMonthIcon,
+          onNextMonthTap: onNextMonthTap,
           controlsTextStyle: controlsTextStyle,
           dayTextStyle: dayTextStyle,
           selectedDayTextStyle: selectedDayTextStyle,
@@ -377,9 +395,12 @@ class CalendarDatePicker2WithActionButtonsConfig
     List<String>? weekdayLabels,
     TextStyle? weekdayLabelTextStyle,
     int? firstDayOfWeek,
+    TextStyle? firstDayOfWeekTextStyle,
     double? controlsHeight,
     Widget? lastMonthIcon,
+    OnMonthIconTap? onLastMonthTap,
     Widget? nextMonthIcon,
+    OnMonthIconTap? onNextMonthTap,
     TextStyle? controlsTextStyle,
     TextStyle? dayTextStyle,
     TextStyle? selectedDayTextStyle,
@@ -418,53 +439,43 @@ class CalendarDatePicker2WithActionButtonsConfig
       currentDate: currentDate ?? this.currentDate,
       calendarViewMode: calendarViewMode ?? this.calendarViewMode,
       weekdayLabels: weekdayLabels ?? this.weekdayLabels,
-      weekdayLabelTextStyle:
-          weekdayLabelTextStyle ?? this.weekdayLabelTextStyle,
+      weekdayLabelTextStyle: weekdayLabelTextStyle ?? this.weekdayLabelTextStyle,
       firstDayOfWeek: firstDayOfWeek ?? this.firstDayOfWeek,
+      firstDayOfWeekTextStyle: firstDayOfWeekTextStyle ?? this.firstDayOfWeekTextStyle,
       controlsHeight: controlsHeight ?? this.controlsHeight,
       lastMonthIcon: lastMonthIcon ?? this.lastMonthIcon,
+      onLastMonthTap: onLastMonthTap ?? this.onLastMonthTap,
       nextMonthIcon: nextMonthIcon ?? this.nextMonthIcon,
+      onNextMonthTap: onNextMonthTap ?? this.onNextMonthTap,
       controlsTextStyle: controlsTextStyle ?? this.controlsTextStyle,
       dayTextStyle: dayTextStyle ?? this.dayTextStyle,
       selectedDayTextStyle: selectedDayTextStyle ?? this.selectedDayTextStyle,
-      selectedRangeDayTextStyle:
-          selectedRangeDayTextStyle ?? this.selectedRangeDayTextStyle,
-      selectedDayHighlightColor:
-          selectedDayHighlightColor ?? this.selectedDayHighlightColor,
-      selectedRangeHighlightColor:
-          selectedRangeHighlightColor ?? this.selectedRangeHighlightColor,
+      selectedRangeDayTextStyle: selectedRangeDayTextStyle ?? this.selectedRangeDayTextStyle,
+      selectedDayHighlightColor: selectedDayHighlightColor ?? this.selectedDayHighlightColor,
+      selectedRangeHighlightColor: selectedRangeHighlightColor ?? this.selectedRangeHighlightColor,
       disabledDayTextStyle: disabledDayTextStyle ?? this.disabledDayTextStyle,
       todayTextStyle: todayTextStyle ?? this.todayTextStyle,
       yearTextStyle: yearTextStyle ?? this.yearTextStyle,
-      selectedYearTextStyle:
-          selectedYearTextStyle ?? this.selectedYearTextStyle,
+      selectedYearTextStyle: selectedYearTextStyle ?? this.selectedYearTextStyle,
       dayBorderRadius: dayBorderRadius ?? this.dayBorderRadius,
       yearBorderRadius: yearBorderRadius ?? this.yearBorderRadius,
-      selectableDayPredicate:
-          selectableDayPredicate ?? this.selectableDayPredicate,
-      dayTextStylePredicate:
-          dayTextStylePredicate ?? this.dayTextStylePredicate,
+      selectableDayPredicate: selectableDayPredicate ?? this.selectableDayPredicate,
+      dayTextStylePredicate: dayTextStylePredicate ?? this.dayTextStylePredicate,
       dayBuilder: dayBuilder ?? this.dayBuilder,
       yearBuilder: yearBuilder ?? this.yearBuilder,
       disableModePicker: disableModePicker ?? this.disableModePicker,
-      centerAlignModePicker:
-          centerAlignModePicker ?? this.centerAlignModePicker,
+      centerAlignModePicker: centerAlignModePicker ?? this.centerAlignModePicker,
       customModePickerIcon: customModePickerIcon ?? this.customModePickerIcon,
-      modePickerTextHandler:
-          modePickerTextHandler ?? this.modePickerTextHandler,
+      modePickerTextHandler: modePickerTextHandler ?? this.modePickerTextHandler,
       rangeBidirectional: rangeBidirectional ?? this.rangeBidirectional,
-      gapBetweenCalendarAndButtons:
-          gapBetweenCalendarAndButtons ?? this.gapBetweenCalendarAndButtons,
-      cancelButtonTextStyle:
-          cancelButtonTextStyle ?? this.cancelButtonTextStyle,
+      gapBetweenCalendarAndButtons: gapBetweenCalendarAndButtons ?? this.gapBetweenCalendarAndButtons,
+      cancelButtonTextStyle: cancelButtonTextStyle ?? this.cancelButtonTextStyle,
       cancelButton: cancelButton ?? this.cancelButton,
       okButtonTextStyle: okButtonTextStyle ?? this.okButtonTextStyle,
       okButton: okButton ?? this.okButton,
       openedFromDialog: openedFromDialog ?? this.openedFromDialog,
-      closeDialogOnCancelTapped:
-          closeDialogOnCancelTapped ?? this.closeDialogOnCancelTapped,
-      closeDialogOnOkTapped:
-          closeDialogOnOkTapped ?? this.closeDialogOnOkTapped,
+      closeDialogOnCancelTapped: closeDialogOnCancelTapped ?? this.closeDialogOnCancelTapped,
+      closeDialogOnOkTapped: closeDialogOnOkTapped ?? this.closeDialogOnOkTapped,
       buttonPadding: buttonPadding ?? this.buttonPadding,
     );
   }

@@ -94,24 +94,16 @@ class _MyHomePageState extends State<MyHomePage> {
     CalendarDatePicker2Type datePickerType,
     List<DateTime?> values,
   ) {
-    values =
-        values.map((e) => e != null ? DateUtils.dateOnly(e) : null).toList();
-    var valueText = (values.isNotEmpty ? values[0] : null)
-        .toString()
-        .replaceAll('00:00:00.000', '');
+    values = values.map((e) => e != null ? DateUtils.dateOnly(e) : null).toList();
+    var valueText = (values.isNotEmpty ? values[0] : null).toString().replaceAll('00:00:00.000', '');
 
     if (datePickerType == CalendarDatePicker2Type.multi) {
-      valueText = values.isNotEmpty
-          ? values
-              .map((v) => v.toString().replaceAll('00:00:00.000', ''))
-              .join(', ')
-          : 'null';
+      valueText =
+          values.isNotEmpty ? values.map((v) => v.toString().replaceAll('00:00:00.000', '')).join(', ') : 'null';
     } else if (datePickerType == CalendarDatePicker2Type.range) {
       if (values.isNotEmpty) {
         final startDate = values[0].toString().replaceAll('00:00:00.000', '');
-        final endDate = values.length > 1
-            ? values[1].toString().replaceAll('00:00:00.000', '')
-            : 'null';
+        final endDate = values.length > 1 ? values[1].toString().replaceAll('00:00:00.000', '') : 'null';
         valueText = '$startDate to $endDate';
       } else {
         return 'null';
@@ -122,10 +114,8 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   _buildCalendarDialogButton() {
-    const dayTextStyle =
-        TextStyle(color: Colors.black, fontWeight: FontWeight.w700);
-    final weekendTextStyle =
-        TextStyle(color: Colors.grey[500], fontWeight: FontWeight.w600);
+    const dayTextStyle = TextStyle(color: Colors.black, fontWeight: FontWeight.w700);
+    final weekendTextStyle = TextStyle(color: Colors.grey[500], fontWeight: FontWeight.w600);
     final anniversaryTextStyle = TextStyle(
       color: Colors.red[400],
       fontWeight: FontWeight.w700,
@@ -149,10 +139,9 @@ class _MyHomePageState extends State<MyHomePage> {
       centerAlignModePicker: true,
       customModePickerIcon: const SizedBox(),
       selectedDayTextStyle: dayTextStyle.copyWith(color: Colors.white),
-      dayTextStylePredicate: ({required date}) {
+      dayTextStylePredicate: (date) {
         TextStyle? textStyle;
-        if (date.weekday == DateTime.saturday ||
-            date.weekday == DateTime.sunday) {
+        if (date.weekday == DateTime.saturday || date.weekday == DateTime.sunday) {
           textStyle = weekendTextStyle;
         }
         if (DateUtils.isSameDay(date, DateTime(2021, 1, 25))) {
@@ -187,9 +176,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       width: 4,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(5),
-                        color: isSelected == true
-                            ? Colors.white
-                            : Colors.grey[500],
+                        color: isSelected == true ? Colors.white : Colors.grey[500],
                       ),
                     ),
                   ),
@@ -282,7 +269,11 @@ class _MyHomePageState extends State<MyHomePage> {
         color: Colors.black87,
         fontWeight: FontWeight.bold,
       ),
-      firstDayOfWeek: 1,
+      firstDayOfWeek: 0,
+      firstDayOfWeekTextStyle: const TextStyle(
+        color: Colors.red,
+        fontWeight: FontWeight.bold,
+      ),
       controlsHeight: 50,
       controlsTextStyle: const TextStyle(
         color: Colors.black,
@@ -296,9 +287,16 @@ class _MyHomePageState extends State<MyHomePage> {
       disabledDayTextStyle: const TextStyle(
         color: Colors.grey,
       ),
-      selectableDayPredicate: (day) => !day
-          .difference(DateTime.now().subtract(const Duration(days: 3)))
-          .isNegative,
+      onNextMonthTap: (currentDate) {
+        debugPrint(currentDate.toString());
+        debugPrint('next month');
+      },
+      onLastMonthTap: (currentDate) {
+        debugPrint(currentDate.toString());
+        debugPrint('last month');
+      },
+      selectableDayPredicate: (day) =>
+          !day.difference(DateTime.now().subtract(const Duration(days: 3))).isNegative,
     );
     return Column(
       mainAxisSize: MainAxisSize.min,
@@ -308,8 +306,7 @@ class _MyHomePageState extends State<MyHomePage> {
         CalendarDatePicker2(
           config: config,
           value: _singleDatePickerValueWithDefaultValue,
-          onValueChanged: (dates) =>
-              setState(() => _singleDatePickerValueWithDefaultValue = dates),
+          onValueChanged: (dates) => setState(() => _singleDatePickerValueWithDefaultValue = dates),
         ),
         const SizedBox(height: 10),
         Row(
@@ -343,8 +340,7 @@ class _MyHomePageState extends State<MyHomePage> {
         CalendarDatePicker2(
           config: config,
           value: _multiDatePickerValueWithDefaultValue,
-          onValueChanged: (dates) =>
-              setState(() => _multiDatePickerValueWithDefaultValue = dates),
+          onValueChanged: (dates) => setState(() => _multiDatePickerValueWithDefaultValue = dates),
         ),
         const SizedBox(height: 10),
         Wrap(
@@ -389,8 +385,7 @@ class _MyHomePageState extends State<MyHomePage> {
         CalendarDatePicker2(
           config: config,
           value: _rangeDatePickerValueWithDefaultValue,
-          onValueChanged: (dates) =>
-              setState(() => _rangeDatePickerValueWithDefaultValue = dates),
+          onValueChanged: (dates) => setState(() => _rangeDatePickerValueWithDefaultValue = dates),
         ),
         const SizedBox(height: 10),
         Row(
@@ -424,8 +419,7 @@ class _MyHomePageState extends State<MyHomePage> {
         CalendarDatePicker2WithActionButtons(
           config: config,
           value: _rangeDatePickerWithActionButtonsWithValue,
-          onValueChanged: (dates) => setState(
-              () => _rangeDatePickerWithActionButtonsWithValue = dates),
+          onValueChanged: (dates) => setState(() => _rangeDatePickerWithActionButtonsWithValue = dates),
         ),
         const SizedBox(height: 10),
         Row(
